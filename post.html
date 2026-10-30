@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阅读 · 眠雨</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a href="index.html" class="brand">眠雨</a>
+      <div class="nav-links">
+        <a href="works.html">作品</a>
+        <a href="blog.html">博客</a>
+        <a href="about.html">关于</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色"></button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="padding-top:120px">
+    <div class="wrap">
+      <div class="post" id="postBody">
+        <p style="color:var(--faint)">加载中…</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© 2026 眠雨</span>
+      <span><a href="about.html">联系</a> · <a href="mailto:">邮箱</a></span>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/marked.min.js"></script>
+  <script src="content/posts/manifest.js"></script>
+  <script>
+    function getParam(name) {
+      var m = location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+    var slug = getParam('slug');
+    var post = (window.POSTS || []).find(function (p) { return p.slug === slug; });
+    var body = document.getElementById('postBody');
+
+    if (!post) {
+      body.innerHTML = '<h1>没找到这篇文章</h1><p><a href="blog.html">返回目录</a></p>';
+    } else if (typeof marked === 'undefined') {
+      body.innerHTML = '<h1>渲染库没加载</h1><p>检查一下 <code>assets/vendor/marked.min.js</code> 是否还在。</p>';
+    } else {
+      fetch(post.file)
+        .then(function (r) { return r.text(); })
+        .then(function (md) {
+          document.title = post.title + ' · 眠雨';
+          var html = marked.parse(md);
+          body.innerHTML =
+            '<span class="eyebrow">' + post.category + '</span>' +
+            '<h1>' + post.title + '</h1>' +
+            '<div class="post-meta">' + post.date + '</div>' +
+            html +
+            '<hr><p><a href="blog.html">← 返回目录</a></p>';
+        })
+        .catch(function () {
+          body.innerHTML = '<h1>加载失败</h1><p>这篇文章需要通过本地服务器或线上网址打开，不能直接双击文件。<br><a href="blog.html">返回目录</a></p>';
+        });
+    }
+  </script>
+</body>
+</html>

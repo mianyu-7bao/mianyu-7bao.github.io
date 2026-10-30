@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博客 · 眠雨</title>
+  <meta name="description" content="眠雨的文字：随笔、学习记录与胡思乱想。">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a href="index.html" class="brand">眠雨</a>
+      <div class="nav-links">
+        <a href="works.html">作品</a>
+        <a href="blog.html" class="active">博客</a>
+        <a href="about.html">关于</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="切换深浅色"></button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="padding-top:120px">
+    <div class="wrap asym">
+      <div class="sec-head">
+        <span class="eyebrow">博客</span>
+        <h2>文字</h2>
+        <p>想到哪写到哪。下面是目录。</p>
+      </div>
+      <div id="postList"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>© 2026 眠雨</span>
+      <span><a href="about.html">联系</a> · <a href="mailto:">邮箱</a></span>
+    </div>
+  </footer>
+
+  <script src="content/posts/manifest.js"></script>
+  <script>
+    var list = document.getElementById('postList');
+    var posts = window.POSTS || [];
+    if (!posts.length) {
+      list.innerHTML = '<p>还没有文章。在 <code>content/posts/</code> 里加一个 .md 就行。</p>';
+    }
+    posts.forEach(function (p) {
+      var el = document.createElement('div');
+      el.className = 'post-item';
+      el.innerHTML =
+        '<div class="meta">' + p.date + ' · ' + p.category + '</div>' +
+        '<h3><a href="post.html?slug=' + p.slug + '">' + p.title + '</a></h3>' +
+        '<div class="excerpt">' + p.excerpt + '</div>';
+      list.appendChild(el);
+    });
+  </script>
+</body>
+</html>
