@@ -1,0 +1,6 @@
+# GitHub Pages 配置
+# 目的：AGENTS.md / README.md 是给人和 AI 看的施工文档，
+# 打成网页挂在站点上没必要。仓库里照样能看到，网站不发布它们。
+exclude:
+  - AGENTS.md
+  - README.md
